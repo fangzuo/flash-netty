@@ -3,6 +3,7 @@ package the.flash.client.handler;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import the.flash.protocol.PacketCodeC;
 
 import java.nio.charset.Charset;
 
@@ -23,8 +24,9 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
     private ByteBuf getByteBuf(ChannelHandlerContext ctx) {
         byte[] bytes = "你好，欢迎关注我的微信公众号，《闪电侠的博客》!".getBytes(Charset.forName("utf-8"));
         ByteBuf buffer = ctx.alloc().buffer();
+        buffer.writeInt(PacketCodeC.MAGIC_NUMBER);
+        buffer.writeInt(bytes.length);
         buffer.writeBytes(bytes);
-
         return buffer;
     }
 }
